@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>WEATHER</title>
+	<style>
+		 body{
+		 	background-image:url(img1.jpg);
+		 	background-size:cover;
+		 	background-repeat:no-repeat;
+		 	margin:0px 0px;
+		 }
+		 #inputbox1{
+		 	text-align:center;
+		 	font-size:16px;
+		 	font-weight:bold;
+		 }
+		 button{
+		 	height:;
+		 	width:;
+		 }
+		 #weather{
+		 	font-size:35px;
+		 	font-weight: 900;
+		 	text-align:center;
+		 }
+		 #contents{
+		 	display:flex;
+		 	justify-content:center;
+
+		 }
+		 #inputbox1{
+		 	height:40px;
+		 	width:250px;
+		 	border-radius:16px;
+		 	margin: 0px 10px 6px 0px;
+		 }
+		 button{
+		 	height:35px;
+		 	width:80px;
+		 	font-weight:bold;
+		 	border-radius:16px;
+		 }
+		#temperature_scale{
+			font-size:50px;
+			margin:20px;
+			font-weight:900;
+		}
+		#humid,#windspeed{
+			text-align:center;
+			font-size:40px;
+		}
+		#displayer{
+			height:150px;
+		    width:150px;
+			display:center;
+			margin:30px 10px 10px 10px;
+		}
+		#container{
+			margin:80px 10px 10px 10px;
+		}
+		#contents{
+			margin:20px 10px 10px 10px;
+			
+		}
+		#humid,#windspeed{
+			padding:20px 20px;
+			font-weight:bold;
+		}
+		#city_state{
+			text-align:center;
+			font-size:50px;
+			font-weight:bold;
+		}
+		footer{
+			text-align:center;
+			color:white;
+			margin:0px 0px ;
+			background-color:black;
+			height:56px;
+		}
+		 @media only screen and (max-width:540px){
+		 	body{
+		 		background-image:url(img1.jpg);
+		 		background-size:cover;
+		 		height:100vh;
+		 		background-repeat:no-repeat;
+		 	}
+
+			#inputbox1 {
+			    height: 40px;
+			    width: 215px;
+			    border-radius: 16px;
+			    margin: 0px 10px 6px 0px;
+			}
+			#temperature_scale{
+				font-size:30px;
+				color:white;
+			}
+			#city_state{
+				font-size:35px;
+				color:white;
+			}
+		 	#humid,#windspeed{
+		 		font-size:25px;
+		 		color:white;
+		 	}
+		 	#weather{
+		 		margin:10px 10px 0px 10px;
+		 	}
+		 	p{
+		 		font-size:8px;
+		 	}
+		 	footer{
+		 		margin:0px 0px;
+		 		padding:0px 0px;
+		 		border:0px 0px;
+		 	}
+		 }
+	</style>
+</head>
+<body>
+	
+	<div id="weather">WEATHER</div>
+	<center>
+	<div id="container">
+	<input type="text" id="inputbox1"/>
+	 	<button type="search" onclick="collectresult()">SEARCH</button>
+	</div>
+	<img src="sun.png" id="displayer" />
+	<div id="temperature_scale">42</div>
+	<div id="city_state">Jamshedpur</div>
+	</center>
+	<div id="contents">
+	 		<div id="humid">23<br/>Humid</div>
+	 		<div id="windspeed">32<br/>Windspeed</div>
+	</div>
+	<footer>
+		<p>Designed and Developed by Aman Kumar Verma<br/>
+		   Email akverma2017.jsr@gmail.com<br/>
+		   Copyright under 2023</p>
+	</footer>
+	<script>
+		var inputbox1 = document.getElementById('inputbox1');
+		const city_state = document.getElementById('city_state');
+		const humid = document.getElementById('humid');
+		const windspeed = document.getElementById('windspeed');
+		const temperature_scale = document.getElementById('temperature_scale');
+		const data = null;
+		function collectresult(){
+		const xhr = new XMLHttpRequest();
+		xhr.withCredentials = true;
+		
+		xhr.addEventListener('readystatechange', function () {
+			if (this.readyState === this.DONE) {
+				const responsedata = JSON.parse(this.responseText);
+				const show=responsedata.location;
+				city_state.innerHTML= show.city;
+				const show2 = responsedata.current_observation.atmosphere;
+				humid.innerHTML = show2.humidity+"<br/>"+"Humidity"; 
+				const show3 = responsedata.current_observation.wind;
+				windspeed.innerHTML = show3.speed+"</br>"+"Wind Speed";
+				const show4 = responsedata.current_observation.condition;
+				const show5 = Math.round((show4.temperature-32)*5/9);
+				temperature_scale.innerHTML = show5+"°C";
+
+				
+			}
+		});
+		const Url = `https://yahoo-weather5.p.rapidapi.com/weather?location=${inputbox1.value}&format=json&u=f`;
+		xhr.open('GET',Url);
+		xhr.setRequestHeader('X-RapidAPI-Key', '93f41def1dmsh887b86d64eede62p100e8ajsn8a6debd87657');
+		xhr.setRequestHeader('X-RapidAPI-Host', 'yahoo-weather5.p.rapidapi.com');
+		
+		xhr.send(data);
+		}
+	</script>
+</body>
+</html>
