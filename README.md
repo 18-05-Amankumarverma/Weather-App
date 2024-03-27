@@ -8,3 +8,5 @@ Its uses AccuWeather API for Weather related Data
 JavaScript
 HTML
 CSS
+# Versions
+v1.0.0
